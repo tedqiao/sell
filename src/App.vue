@@ -12,9 +12,6 @@
         <router-link to="seller">商家</router-link>
       </div>
     </div>
-    <!-- <div class="content">
-      iam content
-    </div> -->
     <router-view/>
   </div>
 </template>
@@ -64,5 +61,4 @@ export default {
         color: rgb(77,85,93)
         &.active
           color: rgb(240,20,20)
-
 </style>

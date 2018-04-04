@@ -48,8 +48,7 @@
             <div class="line"></div>
           </div>
           <ul class="content">
-            <li v-for="support in seller.supports"
-                 :key="$index"
+            <li v-for="(support, index) in seller.supports" :key="index"
                  class="support">
               <span class="icon" :class="classMap[support.type]"></span>
               <span class="text">{{support.description}}</span>
