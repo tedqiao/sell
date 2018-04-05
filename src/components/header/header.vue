@@ -33,41 +33,43 @@
     <div class="background">
       <img :src="seller.avatar" width=100% height=100% alt="">
     </div>
-    <div v-show="details" class="details" transition="fade">
-      <div class="detail-wrapper clearfix">
-        <div class="detail-main">
-          <div class="name">
-            <h1>{{seller.name}}</h1>
-            <div class="star-wrapper">
-              <star :size="48" :score="seller.score"></star>
+    <transition name="fade">
+      <div v-show="details" class="details">
+        <div class="detail-wrapper clearfix">
+          <div class="detail-main">
+            <div class="name">
+              <h1>{{seller.name}}</h1>
+              <div class="star-wrapper">
+                <star :size="48" :score="seller.score"></star>
+              </div>
+            </div>
+            <div class="title">
+              <div class="line"></div>
+              <div class="text">优惠信息</div>
+              <div class="line"></div>
+            </div>
+            <ul class="content">
+              <li v-for="(support, index) in seller.supports" :key="index"
+                   class="support">
+                <span class="icon" :class="classMap[support.type]"></span>
+                <span class="text">{{support.description}}</span>
+              </li>
+            </ul>
+            <div class="title">
+              <div class="line"></div>
+              <div class="text">商家公告</div>
+              <div class="line"></div>
+            </div>
+            <div class="bulletin">
+              <p class="bulletin-content">{{seller.bulletin}}</p>
             </div>
           </div>
-          <div class="title">
-            <div class="line"></div>
-            <div class="text">优惠信息</div>
-            <div class="line"></div>
-          </div>
-          <ul class="content">
-            <li v-for="(support, index) in seller.supports" :key="index"
-                 class="support">
-              <span class="icon" :class="classMap[support.type]"></span>
-              <span class="text">{{support.description}}</span>
-            </li>
-          </ul>
-          <div class="title">
-            <div class="line"></div>
-            <div class="text">商家公告</div>
-            <div class="line"></div>
-          </div>
-          <div class="bulletin">
-            <p class="bulletin-content">{{seller.bulletin}}</p>
-          </div>
+        </div>
+        <div class="detail-close" @click="showDetails">
+          <i class="icon-close"></i>
         </div>
       </div>
-      <div class="detail-close" @click="showDetails">
-        <i class="icon-close"></i>
-      </div>
-    </div>
+     </transition>
   </div>
 </template>
 
