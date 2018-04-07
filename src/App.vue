@@ -6,18 +6,20 @@
         <router-link to="/goods">商品</router-link>
       </div>
       <div class="tab-item">
-          <router-link to="ratings">评论</router-link>
+        <router-link to="ratings">评论</router-link>
       </div>
       <div class="tab-item">
         <router-link to="seller">商家</router-link>
       </div>
     </div>
+    <cart></cart>
     <router-view/>
   </div>
 </template>
 <script type="text/ecmascript-6">
 import header from '@/components/header/header';
 import star from '@/components/star/star';
+import cart from '@/components/cart/cart';
 
 const ERR_NO = 0;
 export default {
@@ -38,6 +40,7 @@ export default {
   components: {
     'v-header': header,
     star,
+    cart,
   },
 };
 </script>

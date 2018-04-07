@@ -48,6 +48,6 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'indent': ["error",2],
     'no-multiple-empty-lines': 0,
-    'no-underscore-dangle': ["error", { "allowAfterThis": true }]
+    'no-underscore-dangle': 0,
   }
 }
