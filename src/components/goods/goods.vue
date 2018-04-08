@@ -41,20 +41,21 @@
                   </span>
                 </div>
               </div>
-              <div class="">
-
-              </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
+    <cart
+    :delivery-price="seller.deliveryPrice"
+    :min-price="seller.minPrice"></cart>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 
 import Bscroll from 'better-scroll';
+import cart from '../cart/cart';
 
 const ERR_NO = 0;
 
@@ -63,6 +64,9 @@ export default {
     seller: {
       type: Object,
     },
+  },
+  components: {
+    cart,
   },
   data() {
     return {

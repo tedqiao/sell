@@ -12,14 +12,12 @@
         <router-link to="seller">商家</router-link>
       </div>
     </div>
-    <cart></cart>
-    <router-view/>
+    <router-view :seller="seller"/>
   </div>
 </template>
 <script type="text/ecmascript-6">
 import header from '@/components/header/header';
 import star from '@/components/star/star';
-import cart from '@/components/cart/cart';
 
 const ERR_NO = 0;
 export default {
@@ -40,7 +38,6 @@ export default {
   components: {
     'v-header': header,
     star,
-    cart,
   },
 };
 </script>
