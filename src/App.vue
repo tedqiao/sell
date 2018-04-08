@@ -6,16 +6,13 @@
         <router-link to="/goods">商品</router-link>
       </div>
       <div class="tab-item">
-          <router-link to="ratings">评论</router-link>
+        <router-link to="ratings">评论</router-link>
       </div>
       <div class="tab-item">
         <router-link to="seller">商家</router-link>
       </div>
     </div>
-    <!-- <div class="content">
-      iam content
-    </div> -->
-    <router-view/>
+    <router-view :seller="seller"/>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -64,5 +61,4 @@ export default {
         color: rgb(77,85,93)
         &.active
           color: rgb(240,20,20)
-
 </style>
