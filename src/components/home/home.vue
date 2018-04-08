@@ -1,12 +1,11 @@
-<template>
-  <div id="app">
-    <router-view />
+<template lang="html">
+  <div class="home">
+    i am home
   </div>
 </template>
-<script type="text/ecmascript-6">
 
+<script type="text/ecmascript-6">
 export default {
-  name: 'App',
 };
 </script>
 
