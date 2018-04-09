@@ -83,7 +83,7 @@ export default {
       goods: [],
       foodsListHeight: [],
       scorllY: 0,
-      checkOutList: [],
+      checkOutList: JSON.parse(localStorage.getItem(1)) || [],
     };
   },
   computed: {
@@ -167,6 +167,7 @@ export default {
       } else {
         delete this.checkOutList[food];
       }
+      localStorage.setItem(1, JSON.stringify(this.checkOutList));
     },
     addEvent(i) {
       const food = this.checkOutList.filter(item => i.name === item.name)[0];
@@ -175,6 +176,7 @@ export default {
       } else {
         this.checkOutList.push({ name: i.name, count: 1, price: i.price });
       }
+      localStorage.setItem(1, JSON.stringify(this.checkOutList));
     },
   },
 };
