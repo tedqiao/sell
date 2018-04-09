@@ -10,6 +10,11 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
+      path: '/home',
+      name: 'home',
+      component: home,
+    },
+    {
       path: '/seller/:id',
       name: 'seller',
       component: seller,
@@ -23,11 +28,6 @@ export default new Router({
           component: goods,
         },
       ],
-    },
-    {
-      path: '/home',
-      name: 'home',
-      component: home,
     },
   ],
   linkActiveClass: 'active',

@@ -4,7 +4,7 @@
       <ul>
         <li v-for="(item,index) in goods" :key="index"
         :class="{'current':currentIndex === index}"
-        @click="selectMenu(index,$event)" class="menu-item">
+        @click="selectMenu(index,$event)" class="menu-item  border-1px">
           <div class="text">
             <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>
             {{item.name}}
@@ -31,7 +31,7 @@
                   {{food.description}}
                 </p>
                 <div class="extra">
-                  <span class="sellCount">月售{{food.sellCount}}</span><span
+                  <span class="sellCount">月售{{food.sellCount}}份</span><span
                   class="rating">好评率{{food.rating}}%</span>
                 </div>
                 <div class="price">
@@ -40,6 +40,13 @@
                     ¥{{food.oldPrice}}
                   </span>
                 </div>
+                <div class="cart-control-wrapper">
+                  <cart-control
+                  :item="food"
+                  :checkOutList="checkOutList"
+                  @removeEvent="removeEvent"
+                  @addEvent="addEvent"></cart-control>
+                </div>
               </div>
             </li>
           </ul>
@@ -47,6 +54,7 @@
       </ul>
     </div>
     <cart
+    :itemsInCart="checkOutList"
     :delivery-price="seller.deliveryPrice"
     :min-price="seller.minPrice"></cart>
   </div>
@@ -56,6 +64,7 @@
 
 import Bscroll from 'better-scroll';
 import cart from '../cart/cart';
+import cartControl from '../cartcontrol/cartControl';
 
 const ERR_NO = 0;
 
@@ -67,12 +76,14 @@ export default {
   },
   components: {
     cart,
+    'cart-control': cartControl,
   },
   data() {
     return {
       goods: [],
       foodsListHeight: [],
       scorllY: 0,
+      checkOutList: [],
     };
   },
   computed: {
@@ -148,6 +159,22 @@ export default {
       }
       const foodList = this.$refs.foodWrapper.getElementsByClassName('food-list-hook');
       this.foodScroll.scrollToElement(foodList[i], 300);
+    },
+    removeEvent(i) {
+      const food = this.checkOutList.filter(item => i.name === item.name)[0];
+      if (food && food.count > 0) {
+        food.count -= 1;
+      } else {
+        delete this.checkOutList[food];
+      }
+    },
+    addEvent(i) {
+      const food = this.checkOutList.filter(item => i.name === item.name)[0];
+      if (food) {
+        food.count += 1;
+      } else {
+        this.checkOutList.push({ name: i.name, count: 1, price: i.price });
+      }
     },
   },
 };
