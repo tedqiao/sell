@@ -56,7 +56,11 @@
     <cart
     :itemsInCart="checkOutList"
     :delivery-price="seller.deliveryPrice"
-    :min-price="seller.minPrice"></cart>
+    :min-price="seller.minPrice"
+    @clean-cart="clean"
+    @removeEvent="removeEvent"
+    @addEvent="addEvent"
+    ></cart>
   </div>
 </template>
 
@@ -139,6 +143,7 @@ export default {
       });
 
       this.foodScroll = new Bscroll(this.$refs.foodWrapper, {
+        click: true,
         probeType: 3,
       });
       this.foodScroll.on('scroll', (pos) => {
@@ -164,8 +169,9 @@ export default {
       const food = this.checkOutList.filter(item => i.name === item.name)[0];
       if (food && food.count > 0) {
         food.count -= 1;
-      } else {
-        delete this.checkOutList[food];
+      }
+      if (food.count === 0) {
+        this.checkOutList = this.checkOutList.filter(item => i.name !== item.name);
       }
       localStorage.setItem(1, JSON.stringify(this.checkOutList));
     },
@@ -176,6 +182,10 @@ export default {
       } else {
         this.checkOutList.push({ name: i.name, count: 1, price: i.price });
       }
+      localStorage.setItem(1, JSON.stringify(this.checkOutList));
+    },
+    clean() {
+      this.checkOutList.splice(0, this.checkOutList.length);
       localStorage.setItem(1, JSON.stringify(this.checkOutList));
     },
   },

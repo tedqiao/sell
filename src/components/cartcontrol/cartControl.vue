@@ -1,12 +1,18 @@
 <template lang="html">
   <div class="cartControl">
-    <div class="remove" @click="removeOne(item)" v-show="show">
-      <span class="icon-remove_circle_outline"></span>
-    </div>
-    <div class="count" v-show="show">
-      {{count}}
-    </div>
-    <div class="add" @click="addOne(item)">
+    <transition name="slide-fade">
+      <div class="remove" @click="removeOne(item,$event)" v-show="show">
+        <span class="icon-remove_circle_outline"></span>
+      </div>
+    </transition>
+    <transition name="slide-fade">
+      <div class="count" v-show="show">
+        <div>
+          {{count}}
+        </div>
+      </div>
+    </transition>
+    <div class="add" @click="addOne(item,$event)">
       <span class="icon-add_circle"></span>
     </div>
   </div>
@@ -47,10 +53,18 @@ export default {
     },
   },
   methods: {
-    removeOne(i) {
+    removeOne(i, e) {
+      // console.log('cartC - called');
+      if (!e._constructed) {
+        return;
+      }
       this.$emit('removeEvent', i);
     },
-    addOne(i) {
+    addOne(i, e) {
+      if (!e._constructed) {
+        return;
+      }
+      // console.log('cartC + called');
       this.$emit('addEvent', i);
     },
   },
