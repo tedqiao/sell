@@ -4,7 +4,7 @@
       <ul>
         <li v-for="(item,index) in goods" :key="index"
         :class="{'current':currentIndex === index}"
-        @click="selectMenu(index,$event)" class="menu-item">
+        @click="selectMenu(index,$event)" class="menu-item  border-1px">
           <div class="text">
             <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>
             {{item.name}}
@@ -31,7 +31,7 @@
                   {{food.description}}
                 </p>
                 <div class="extra">
-                  <span class="sellCount">月售{{food.sellCount}}</span><span
+                  <span class="sellCount">月售{{food.sellCount}}份</span><span
                   class="rating">好评率{{food.rating}}%</span>
                 </div>
                 <div class="price">
@@ -40,6 +40,13 @@
                     ¥{{food.oldPrice}}
                   </span>
                 </div>
+                <div class="cart-control-wrapper">
+                  <cart-control
+                  :item="food"
+                  :checkOutList="checkOutList"
+                  @removeEvent="removeEvent"
+                  @addEvent="addEvent"></cart-control>
+                </div>
               </div>
             </li>
           </ul>
@@ -47,8 +54,13 @@
       </ul>
     </div>
     <cart
+    :itemsInCart="checkOutList"
     :delivery-price="seller.deliveryPrice"
-    :min-price="seller.minPrice"></cart>
+    :min-price="seller.minPrice"
+    @clean-cart="clean"
+    @removeEvent="removeEvent"
+    @addEvent="addEvent"
+    ></cart>
   </div>
 </template>
 
@@ -56,6 +68,7 @@
 
 import Bscroll from 'better-scroll';
 import cart from '../cart/cart';
+import cartControl from '../cartcontrol/cartControl';
 
 const ERR_NO = 0;
 
@@ -67,12 +80,14 @@ export default {
   },
   components: {
     cart,
+    'cart-control': cartControl,
   },
   data() {
     return {
       goods: [],
       foodsListHeight: [],
       scorllY: 0,
+      checkOutList: JSON.parse(localStorage.getItem(1)) || [],
     };
   },
   computed: {
@@ -128,6 +143,7 @@ export default {
       });
 
       this.foodScroll = new Bscroll(this.$refs.foodWrapper, {
+        click: true,
         probeType: 3,
       });
       this.foodScroll.on('scroll', (pos) => {
@@ -148,6 +164,29 @@ export default {
       }
       const foodList = this.$refs.foodWrapper.getElementsByClassName('food-list-hook');
       this.foodScroll.scrollToElement(foodList[i], 300);
+    },
+    removeEvent(i) {
+      const food = this.checkOutList.filter(item => i.name === item.name)[0];
+      if (food && food.count > 0) {
+        food.count -= 1;
+      }
+      if (food.count === 0) {
+        this.checkOutList = this.checkOutList.filter(item => i.name !== item.name);
+      }
+      localStorage.setItem(1, JSON.stringify(this.checkOutList));
+    },
+    addEvent(i) {
+      const food = this.checkOutList.filter(item => i.name === item.name)[0];
+      if (food) {
+        food.count += 1;
+      } else {
+        this.checkOutList.push({ name: i.name, count: 1, price: i.price });
+      }
+      localStorage.setItem(1, JSON.stringify(this.checkOutList));
+    },
+    clean() {
+      this.checkOutList.splice(0, this.checkOutList.length);
+      localStorage.setItem(1, JSON.stringify(this.checkOutList));
     },
   },
 };

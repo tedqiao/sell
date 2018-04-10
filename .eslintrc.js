@@ -49,5 +49,6 @@ module.exports = {
     'indent': ["error",2],
     'no-multiple-empty-lines': 0,
     'no-underscore-dangle': 0,
+    'no-param-reassign': ["error", { "props": false }]
   }
 }
