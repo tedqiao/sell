@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="cartControl">
     <transition name="slide-fade">
-      <div class="remove" @click="removeOne(item,$event)" v-show="show">
+      <div class="remove" @click.prevent.stop="removeOne(item,$event)" v-show="show">
         <span class="icon-remove_circle_outline"></span>
       </div>
     </transition>
@@ -12,7 +12,7 @@
         </div>
       </div>
     </transition>
-    <div class="add" @click="addOne(item,$event)">
+    <div class="add" @click.prevent.stop="addOne(item,$event)">
       <span class="icon-add_circle"></span>
     </div>
   </div>
@@ -54,7 +54,6 @@ export default {
   },
   methods: {
     removeOne(i, e) {
-      // console.log('cartC - called');
       if (!e._constructed) {
         return;
       }
@@ -64,7 +63,6 @@ export default {
       if (!e._constructed) {
         return;
       }
-      // console.log('cartC + called');
       this.$emit('addEvent', i);
     },
   },
