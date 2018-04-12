@@ -27,7 +27,6 @@ const TYPE_COMPLAIN = 1;
 export default {
   data() {
     return {
-      seletedType: 2,
     };
   },
   props: {
@@ -45,6 +44,9 @@ export default {
     },
     contentFilter: {
       type: Boolean,
+    },
+    seletedType: {
+      type: Number,
     },
   },
   computed: {

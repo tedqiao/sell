@@ -46,6 +46,7 @@
     :ratings="food.ratings"
     :ratingTypes="ratingTypes"
     :contentFilter="contentFilter"
+    :seletedType = "commentsType"
     @typeHandler="handleratingsType"
     @contentFilterHandler="handleContentFilter"></comments-tookit>
     <div class="comment-list">
@@ -68,6 +69,9 @@
           </div>
         </li>
       </ul>
+    </div>
+    <div v-show="food.ratings.length === 0" class="no-rating">
+      暂无评价
     </div>
   </div>
 </div>
