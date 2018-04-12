@@ -59,7 +59,6 @@ export default {
   },
   methods: {
     seleteType(num) {
-      this.seletedType = num;
       this.$emit('typeHandler', num);
     },
     filterContent(o) {
