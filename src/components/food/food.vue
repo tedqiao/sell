@@ -42,30 +42,15 @@
       </div>
     </div>
     <spliter></spliter>
-    <div class="food-ratings">
-      <h1 class="title">
-        商品评价
-      </h1>
-      <div class="rating-types">
-        <div class="all">
-          全部 <span class="num">{{comments.all}}</span>
-        </div>
-        <div class="recommend">
-          推荐 <span class="num">{{comments.recommend}}</span>
-        </div>
-        <div class="complaint">
-          吐槽 <span class="num">{{comments.complaint}}</span>
-        </div>
-      </div>
-    </div>
-    <div class="comments-filter">
-      <span class="icon-check_circle"></span><div class="content">
-      只看有内容的评价
-      </div>
-    </div>
+    <comments-tookit
+    :ratings="food.ratings"
+    :ratingTypes="ratingTypes"
+    :contentFilter="contentFilter"
+    @typeHandler="handleratingsType"
+    @contentFilterHandler="handleContentFilter"></comments-tookit>
     <div class="comment-list">
       <ul>
-        <li v-for="rating in this.food.ratings">
+        <li v-for="(rating,index) in ratings" :key="index">
           <div class="comment-wrapper">
             <div class="rating-time">
               {{getTime(rating.rateTime)}}
@@ -92,11 +77,14 @@
 import Bs from 'better-scroll';
 import cartcontrol from '../cartcontrol/cartControl';
 import spliter from '../spliter/spliter';
+import commentsTookit from '../commentsTookit/commentsTookit';
 
 export default {
   data() {
     return {
       show: false,
+      commentsType: 2,
+      contentFilter: false,
     };
   },
   props: {
@@ -114,7 +102,8 @@ export default {
     },
   },
   created() {
-    this.rateType = ['icon-thumb_up', 'icon-thumb_down'];
+    this.rateType = ['icon-thumb_up thumb_up', 'icon-thumb_down'];
+    this.ratingTypes = ['全部', '推荐', '吐槽'];
   },
   methods: {
     showFoodDetails() {
@@ -139,32 +128,33 @@ export default {
     addEvent(i) {
       this.$emit('addEvent', i);
     },
+    handleratingsType(i) {
+      this.commentsType = i;
+    },
+    handleContentFilter(i) {
+      this.contentFilter = i;
+    },
   },
   components: {
     'cart-control': cartcontrol,
+    'comments-tookit': commentsTookit,
     spliter,
   },
   computed: {
     showButton() {
       return this.checkOutList.filter(i => i.name === this.food.name).length > 0;
     },
-    comments() {
-      const comment = {
-        all: 0,
-        recommend: 0,
-        complaint: 0,
-      };
-      if (this.food.ratings) {
-        this.food.ratings.forEach((i) => {
-          if (i.rateType === 0) {
-            comment.recommend += 1;
-          } else {
-            comment.complaint += 1;
-          }
-          comment.all += 1;
-        });
+    ratings() {
+      if (this.commentsType === 2 && !this.contentFilter) {
+        return this.food.ratings;
+      } else if (this.commentsType === 2 && this.contentFilter) {
+        return this.food.ratings.filter(r => r.text.length !== 0);
       }
-      return comment;
+      if (this.contentFilter) {
+        return this.food.ratings.filter(r => r.rateType === this.commentsType
+        && r.text.length !== 0);
+      }
+      return this.food.ratings.filter(r => r.rateType === this.commentsType);
     },
   },
 };
