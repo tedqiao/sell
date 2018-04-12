@@ -14,12 +14,15 @@
     </div>
     <div class="foods-wrapper" ref="foodWrapper">
       <ul>
-        <li v-for="(good,index) in goods" :key="index" class="good food-list-hook">
+        <li v-for="(good,index) in goods"
+        :key="index"
+        class="good food-list-hook">
           <h1 class="title">
               {{good.name}}
           </h1>
           <ul>
-            <li v-for="(food,i) in good.foods" :key="i" class="food border-1px ">
+            <li v-for="(food,i) in good.foods"
+            :key="i" @click="selectFood(food)" class="food border-1px">
               <div class="icon">
                 <img width="57" height="57" :src="food.icon" alt="">
               </div>
@@ -53,6 +56,12 @@
         </li>
       </ul>
     </div>
+    <food-detail
+    ref="foodDetails"
+    :food="selectedFood"
+    :checkOutList="checkOutList"
+    @removeEvent="removeEvent"
+    @addEvent="addEvent"></food-detail>
     <cart
     :itemsInCart="checkOutList"
     :delivery-price="seller.deliveryPrice"
@@ -69,6 +78,7 @@
 import Bscroll from 'better-scroll';
 import cart from '../cart/cart';
 import cartControl from '../cartcontrol/cartControl';
+import foodDetail from '../food/food';
 
 const ERR_NO = 0;
 
@@ -81,6 +91,7 @@ export default {
   components: {
     cart,
     'cart-control': cartControl,
+    'food-detail': foodDetail,
   },
   data() {
     return {
@@ -88,6 +99,7 @@ export default {
       foodsListHeight: [],
       scorllY: 0,
       checkOutList: JSON.parse(localStorage.getItem(1)) || [],
+      selectedFood: {},
     };
   },
   computed: {
@@ -164,6 +176,10 @@ export default {
       }
       const foodList = this.$refs.foodWrapper.getElementsByClassName('food-list-hook');
       this.foodScroll.scrollToElement(foodList[i], 300);
+    },
+    selectFood(f) {
+      this.selectedFood = f;
+      this.$refs.foodDetails.showFoodDetails();
     },
     removeEvent(i) {
       const food = this.checkOutList.filter(item => i.name === item.name)[0];
