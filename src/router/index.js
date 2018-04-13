@@ -4,6 +4,7 @@ import goods from '@/components/goods/goods';
 import ratings from '@/components/ratings/ratings';
 import seller from '@/components/seller/seller';
 import home from '@/components/home/home';
+import sellerInfo from '@/components/sellerInfo/sellerInfo';
 
 Vue.use(Router);
 
@@ -26,6 +27,10 @@ export default new Router({
         {
           path: '/goods',
           component: goods,
+        },
+        {
+          path: '/',
+          component: sellerInfo,
         },
       ],
     },

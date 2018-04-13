@@ -70,7 +70,9 @@
             <div class="bottom">
               <div class="icon">
                 <span :class="rateType[rating.rateType]"></span>
-                <span class="recommend" v-for="recommend in rating.recommend">
+                <span class="recommend"
+                v-for="(recommend,index) in rating.recommend"
+                :key="index">
                       {{recommend}}
                  </span>
               </div>
@@ -268,5 +270,4 @@ export default {
           border:1px solid rgba(7,17,27,0.1)
           border-radius:1px
           overflow:hidden
-          
 </style>
